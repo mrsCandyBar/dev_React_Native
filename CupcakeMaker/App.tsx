@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View, Button } from 'react-native';
 import Svg from './components/svg';
 import { findIndex, get, set } from 'lodash';
 
@@ -103,18 +103,106 @@ export default class App extends React.Component<IAppProps, IAppState> {
         <View style={{ flex: 8, flexDirection: 'row' }}>
           <Svg visible={this.state.cupcake} />
         </View>
+
         <View style={{ flex: 1, flexDirection: 'row' }}>
-          <View style={{ flex: 1, backgroundColor: '#FF0000' }} onTouchStart={() => this.swapOut('flavour')} />
-          <View style={{ flex: 1, backgroundColor: '#00FF00' }} onTouchStart={() => this.swapOut('holder.type')} />
-          <View style={{ flex: 1, backgroundColor: '#FF0000' }} onTouchStart={() => this.swapOut('holder.colour')} />
-          <View style={{ flex: 1, backgroundColor: '#FF0000' }} onTouchStart={() => this.swapOut('icing.colour')} />
-          <View style={{ flex: 1, backgroundColor: '#00FF00' }} onTouchStart={() => this.swapOut('icing.type')} />
-          <View style={{ flex: 1, backgroundColor: '#FF0000' }} onTouchStart={() => this.swapOut('sprinkles.type')} />
-          <View style={{ flex: 1, backgroundColor: '#00FF00' }} onTouchStart={() => this.swapOut('sprinkles.colour')} />
-          <View style={{ flex: 1, backgroundColor: '#FF0000' }} onTouchStart={() => this.swapOut('topping')} />
-          <View style={{ flex: 1, backgroundColor: '#00FF00' }} onTouchStart={() => this.swapOut('optional')} />
+          <View style={{ flex: 1, backgroundColor: '#999999' }} onTouchStart={() => this.swapOut('flavour')} />
+          <View style={{ flex: 1, backgroundColor: '#888888' }} onTouchStart={() => this.swapOut('holder.type')} />
+          <View style={{ flex: 1, backgroundColor: '#777777' }} onTouchStart={() => this.swapOut('holder.colour')} />
+          <View style={{ flex: 1, backgroundColor: '#666666' }} onTouchStart={() => this.swapOut('icing.colour')} />
+          <View style={{ flex: 1, backgroundColor: '#555555' }} onTouchStart={() => this.swapOut('icing.type')} />
+          <View style={{ flex: 1, backgroundColor: '#444444' }} onTouchStart={() => this.swapOut('sprinkles.type')} />
+          <View style={{ flex: 1, backgroundColor: '#333333' }} onTouchStart={() => this.swapOut('sprinkles.colour')} />
+          <View style={{ flex: 1, backgroundColor: '#222222' }} onTouchStart={() => this.swapOut('topping')} />
+          <View style={{ flex: 1, backgroundColor: '#111111' }} onTouchStart={() => this.swapOut('optional')} />
         </View>
-      </View >
+
+        {/*
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+          <View style={{ flex: 1, backgroundColor: '#222222' }} onTouchStart={() => this.swapOut('flavour')}>
+            <Svg visible={{
+              flavour: "vanilla",
+              holder: { type: this.state.cupcake.holder.type, colour: "transparent" },
+              icing: { type: this.state.cupcake.icing.type, colour: "transparent" },
+              sprinkles: { type: 'salt-single', colour: "transparent" }
+            }
+            } />
+          </View>
+          <View style={{ flex: 1, backgroundColor: '#222222' }} onTouchStart={() => this.swapOut('holder.type')}>
+            <Svg visible={{
+              flavour: "transparent",
+              holder: { type: this.state.cupcake.holder.type, colour: this.state.cupcake.holder.colour },
+              icing: { type: this.state.cupcake.icing.type, colour: "transparent" },
+              sprinkles: { type: 'salt-single', colour: "transparent" }
+            }
+            } />
+          </View>
+          <View style={{ flex: 1, backgroundColor: '#222222' }} onTouchStart={() => this.swapOut('holder.colour')}>
+            <Svg visible={{
+              flavour: "transparent",
+              holder: { type: this.state.cupcake.holder.type, colour: this.state.cupcake.holder.colour },
+              icing: { type: this.state.cupcake.icing.type, colour: "transparent" },
+              sprinkles: { type: 'salt-single', colour: "transparent" }
+            }
+            } />
+          </View>
+          <View style={{ flex: 1, backgroundColor: '#222222' }} onTouchStart={() => this.swapOut('icing.colour')}>
+            <Svg visible={{
+              flavour: "transparent",
+              holder: { type: this.state.cupcake.holder.type, colour: 'transparent' },
+              icing: { type: this.state.cupcake.icing.type, colour: this.state.cupcake.icing.colour },
+              sprinkles: { type: 'salt-single', colour: "transparent" }
+            }
+            } />
+          </View>
+          <View style={{ flex: 1, backgroundColor: '#222222' }} onTouchStart={() => this.swapOut('icing.type')}>
+            <Svg visible={{
+              flavour: "transparent",
+              holder: { type: this.state.cupcake.holder.type, colour: 'transparent' },
+              icing: { type: this.state.cupcake.icing.type, colour: this.state.cupcake.icing.colour },
+              sprinkles: { type: 'salt-single', colour: "transparent" }
+            }
+            } />
+          </View>
+          <View style={{ flex: 1, backgroundColor: '#222222' }} onTouchStart={() => this.swapOut('sprinkles.type')}>
+            <Svg visible={{
+              flavour: "transparent",
+              holder: { type: this.state.cupcake.holder.type, colour: 'transparent' },
+              icing: { type: this.state.cupcake.icing.type, colour: 'transparent' },
+              sprinkles: { type: this.state.cupcake.sprinkles.type, colour: this.state.cupcake.sprinkles.colour }
+            }
+            } />
+          </View>
+          <View style={{ flex: 1, backgroundColor: '#222222' }} onTouchStart={() => this.swapOut('sprinkles.colour')}>
+            <Svg visible={{
+              flavour: "transparent",
+              holder: { type: this.state.cupcake.holder.type, colour: 'transparent' },
+              icing: { type: this.state.cupcake.icing.type, colour: 'transparent' },
+              sprinkles: { type: this.state.cupcake.sprinkles.type, colour: this.state.cupcake.sprinkles.colour }
+            }
+            } />
+          </View>
+          <View style={{ flex: 1, backgroundColor: '#222222' }} onTouchStart={() => this.swapOut('topping')}>
+            <Svg visible={{
+              flavour: "transparent",
+              holder: { type: this.state.cupcake.holder.type, colour: 'transparent' },
+              icing: { type: this.state.cupcake.icing.type, colour: 'transparent' },
+              sprinkles: { type: 'salt-single', colour: 'transparent' },
+              topping: this.state.cupcake.topping
+            }
+            } />
+          </View>
+          <View style={{ flex: 1, backgroundColor: '#222222' }} onTouchStart={() => this.swapOut('optional')}>
+            <Svg visible={{
+              flavour: "transparent",
+              holder: { type: this.state.cupcake.holder.type, colour: 'transparent' },
+              icing: { type: this.state.cupcake.icing.type, colour: 'transparent' },
+              sprinkles: { type: 'salt-single', colour: 'transparent' },
+              optional: this.state.cupcake.optional
+            }
+            } />
+          </View>
+          </View>*/}
+      </View>
     );
   }
 }

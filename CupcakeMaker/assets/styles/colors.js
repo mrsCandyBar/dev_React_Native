@@ -33,5 +33,6 @@ export const color = {
     specialVanilla: "#FCF8C4",
     specialYellow: "#FFFF00",
     specialPink: "#FF00FF",
-    limeGreen: "#00FF00"
+    limeGreen: "#00FF00",
+    transparent: "rgba(255, 255, 255, 0)"
 };
