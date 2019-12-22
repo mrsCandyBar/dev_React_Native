@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Svg from './components/svg';
-import { findIndex, get, set } from 'lodash';
+import { findIndex, get, set, isArray } from 'lodash';
 
 interface IAppProps { }
 interface IAppState {
@@ -38,7 +38,24 @@ interface IAppState {
     },
     topping: Array<string>,
     optional: Array<boolean>
-  }
+  },
+  matchCupcake: {
+    flavour: "vanilla",
+    holder: {
+      type: "dotted",
+      colour: "green"
+    },
+    icing: {
+      type: "smooth",
+      colour: "specialVanilla"
+    },
+    sprinkles: {
+      type: "sprinkles",
+      colour: "yellow"
+    },
+    topping: "cherry",
+    optional: false
+  },
 }
 
 export default class App extends React.Component<IAppProps, IAppState> {
@@ -79,8 +96,52 @@ export default class App extends React.Component<IAppProps, IAppState> {
         },
         topping: ["cherry", "strawberry", "citrus", "gumball", "candle", "heart", "flower"],
         optional: [false, true]
-      }
+      },
+      matchCupcake: {
+        flavour: "vanilla",
+        holder: {
+          type: "dotted",
+          colour: "green"
+        },
+        icing: {
+          type: "smooth",
+          colour: "specialVanilla"
+        },
+        sprinkles: {
+          type: "sprinkles",
+          colour: "yellow"
+        },
+        topping: "cherry",
+        optional: false
+      },
     }
+  }
+
+  componentDidMount = () => {
+    this.generateRandomCupcake();
+  }
+
+  private generateRandomCupcake = () => {
+    const getOptions = this.state.options;
+    let newCupcake: any = {};
+
+    Object.keys(getOptions).forEach((optionType) => {
+      if (isArray(getOptions[optionType])) {
+        const randomNumber = Math.floor(Math.random() * getOptions[optionType].length);
+        return newCupcake[optionType] = getOptions[optionType][randomNumber];
+
+      } else {
+        newCupcake[optionType] = {};
+        Object.keys(getOptions[optionType]).map((innerObjectType) => {
+          const innerRandomNumber = Math.floor(Math.random() * getOptions[optionType][innerObjectType].length);
+          return newCupcake[optionType][innerObjectType] = getOptions[optionType][innerObjectType][innerRandomNumber];
+        });
+      }
+    });
+
+    this.setState({
+      matchCupcake: { ...newCupcake }
+    });
   }
 
   private swapOut = optionType => {
@@ -90,68 +151,82 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
     let updateState = this.state.cupcake;
     set(updateState, optionType, allOptions[(activeIndex == allOptions.length - 1) ? 0 : activeIndex + 1]);
+
     this.setState({
       cupcake: { ...updateState }
-    });
+    },function () {
+      console.log('updated! ');
+     });
   }
 
   render() {
     const { flavour, holder, icing, sprinkles, topping, optional } = this.state.cupcake;
-    const leftAlignSvg = { width: '200%', height: '100%', viewBox: '80 0 450 600' };
-    const rightAlignSvg = { width: '200%', height: '100%', viewBox: '300 0 450 600' };
+    const leftAlignSvg = { width: '200%', height: '100%', viewBox: '5 0 450 600' };
+    const rightAlignSvg = { width: '200%', height: '100%', viewBox: '230 0 450 600' };
 
     return (
       <View style={styles.container}>
-        <View style={[styles.isRow, { flex: 8 }]}>
-          <Svg visible={this.state.cupcake} />
+        <View style={[styles.isRow, { flex: 2, marginTop: 25 }]}>
+          <View style={{ flexDirection: 'column', flex: 1 }}>
+            <Svg visible={this.state.matchCupcake} />
+          </View>
+        </View>
+
+        <View style={[styles.isRow, { flex: 8, alignItems: 'center', justifyContent: 'center' }]}>
+          <View style={[styles.single, styles.halfSvg]}>
+            <Svg visible={{ ...this.state.cupcake, svg: leftAlignSvg }} />
+          </View>
+          <View style={[styles.single, styles.halfSvg]}>
+            <Svg visible={{ ...this.state.matchCupcake, svg: rightAlignSvg }} />
+          </View>
         </View>
 
         <View style={[styles.single, styles.isRow, { backgroundColor: '#161616', paddingBottom: 5, marginTop: 20 }]}>
-          <View style={styles.single} onTouchStart={() => this.swapOut('flavour')}>
+          <View style={styles.single} onTouchEnd={() => this.swapOut('flavour')}>
             <Svg visible={{ flavour: flavour }} />
           </View>
 
           <View style={[styles.single, styles.isRow]}>
-            <View style={[styles.single, styles.halfSvg]} onTouchStart={() => this.swapOut('holder.type')}>
+            <View style={[styles.single, styles.halfSvg]} onTouchEnd={() => this.swapOut('holder.type')}>
               <Svg visible={{ holder: { type: holder.type }, svg: leftAlignSvg }} />
             </View>
-            <View style={[styles.single, styles.halfSvg]} onTouchStart={() => this.swapOut('holder.colour')}>
+            <View style={[styles.single, styles.halfSvg]} onTouchEnd={() => this.swapOut('holder.colour')}>
               <Svg visible={{ holder: { type: holder.type, colour: holder.colour }, svg: rightAlignSvg }} />
             </View>
           </View>
 
           <View style={[styles.single, styles.isRow]}>
-            <View style={styles.single} onTouchStart={() => this.swapOut('icing.type')}>
+            <View style={styles.single} onTouchEnd={() => this.swapOut('icing.type')}>
               <Svg visible={{ icing: { type: icing.type }, svg: leftAlignSvg }} />
             </View>
-            <View style={styles.single} onTouchStart={() => this.swapOut('icing.colour')}>
+            <View style={styles.single} onTouchEnd={() => this.swapOut('icing.colour')}>
               <Svg visible={{ icing: { type: icing.type, colour: icing.colour }, svg: rightAlignSvg }} />
             </View>
           </View>
 
           {sprinkles && (sprinkles.type === 'salt' || sprinkles.type === 'sprinkles') ? (
             <View style={[styles.single, styles.isRow]}>
-              <View style={styles.single} onTouchStart={() => this.swapOut('sprinkles.type')}>
+              <View style={styles.single} onTouchEnd={() => this.swapOut('sprinkles.type')}>
                 <Svg visible={{ sprinkles: { type: sprinkles.type }, svg: { width: '100%', height: '100%', viewBox: '70 0 450 600' } }} />
               </View>
             </View>
           ) : (
               <View style={[styles.single, styles.isRow]}>
-                <View style={styles.single} onTouchStart={() => this.swapOut('sprinkles.type')}>
+                <View style={styles.single} onTouchEnd={() => this.swapOut('sprinkles.type')}>
                   <Svg visible={{ sprinkles: { type: sprinkles.type }, svg: leftAlignSvg }} />
                 </View>
-                <View style={styles.single} onTouchStart={() => this.swapOut('sprinkles.colour')}>
+                <View style={styles.single} onTouchEnd={() => this.swapOut('sprinkles.colour')}>
                   <Svg visible={{ sprinkles: { type: sprinkles.type, colour: sprinkles.colour }, svg: rightAlignSvg }} />
                 </View>
               </View>
             )}
 
           <View style={[styles.single, styles.isRow]}>
-            
-            <View style={[styles.single, styles.halfSvg]} onTouchStart={() => this.swapOut('optional')}>
+
+            <View style={[styles.single, styles.halfSvg]} onTouchEnd={() => this.swapOut('optional')}>
               <Svg visible={{ icing: { type: icing.type, colour: icing.type }, optional: optional, topping: topping, svg: leftAlignSvg }} />
             </View>
-            <View style={styles.single} onTouchStart={() => this.swapOut('topping')}>
+            <View style={styles.single} onTouchEnd={() => this.swapOut('topping')}>
               <Svg visible={{ icing: { type: icing.type }, topping: topping, svg: rightAlignSvg }} />
             </View>
           </View>

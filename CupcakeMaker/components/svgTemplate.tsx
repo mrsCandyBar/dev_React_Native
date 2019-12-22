@@ -20,14 +20,28 @@ class SvgTemplate extends React.Component<ISvgTemplateProps, ISvgTemplateState> 
         super(props);
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        const {
+            flavour,
+            holder,
+            icing,
+            sprinkles,
+            topping,
+            optional
+        } = this.props.visible;
+
+        return flavour != nextProps.flavour ||
+            holder != nextProps.holder ||
+            icing != nextProps.icing ||
+            sprinkles != nextProps.sprinkles ||
+            topping != nextProps.topping ||
+            optional != nextProps.optional;
+    }
+
     render() {
         const StyledPath = option => (
             <Path
-                stroke={option.stroke ? option.stroke : "none"}
-                stroke-width={option.strokeWidth ? option.strokeWidth : 0}
-                stroke-linecap={option.strokeLineCap ? option.strokeLineCap : "round"}
-                stroke-linejoin={option.strokeLineJoin ? option.strokeLineJoin : "round"}
-                fill-rule={option.fillRule ? option.fillRule : "evenodd"}
+                stroke={"none"}
                 fill={option.fill ? color[option.fill] : "black"}
                 opacity={option.opacity ? option.opacity : 1}
                 d={option.d} />
