@@ -1,11 +1,11 @@
 import { Svg, Use } from 'react-native-svg';
-import { Text } from 'react-native';
 import React from 'react';
 import SvgTemplate from './svgTemplate';
 
 interface ISVGState { }
 interface ISVGProps {
     visible: {
+        svg? : any,
         flavour?: string,
         holder?: any,
         icing?: any,
@@ -38,6 +38,7 @@ class SVG extends React.Component<ISVGProps, ISVGState> {
         }
 
         const {
+            svg,
             flavour,
             holder,
             icing,
@@ -48,7 +49,7 @@ class SVG extends React.Component<ISVGProps, ISVGState> {
 
         return (
             <React.Fragment>
-                <Svg width="100%" height="100%" viewBox="0 0 450 600">
+                <Svg width={svg ? svg.width : '100%'} height={svg ? svg.height : '100%'} viewBox={ svg ? svg.viewBox : "0 0 450 600"}>
                     <SvgTemplate visible={this.props.visible} />
                     <RenderSVG visibleList={[
                         (flavour && 'cake'),

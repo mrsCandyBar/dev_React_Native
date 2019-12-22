@@ -102,46 +102,50 @@ export default class App extends React.Component<IAppProps, IAppState> {
           <Svg visible={this.state.cupcake} />
         </View>
 
-        {/*<View style={{ flex: 1, flexDirection: 'row' }}>
-          <View style={{ flex: 1, backgroundColor: '#999999' }} onTouchStart={() => this.swapOut('flavour')} />
-          <View style={{ flex: 1, backgroundColor: '#888888' }} onTouchStart={() => this.swapOut('holder.type')} />
-          <View style={{ flex: 1, backgroundColor: '#777777' }} onTouchStart={() => this.swapOut('holder.colour')} />
-          <View style={{ flex: 1, backgroundColor: '#666666' }} onTouchStart={() => this.swapOut('icing.colour')} />
-          <View style={{ flex: 1, backgroundColor: '#555555' }} onTouchStart={() => this.swapOut('icing.type')} />
-          <View style={{ flex: 1, backgroundColor: '#444444' }} onTouchStart={() => this.swapOut('sprinkles.type')} />
-          <View style={{ flex: 1, backgroundColor: '#333333' }} onTouchStart={() => this.swapOut('sprinkles.colour')} />
-          <View style={{ flex: 1, backgroundColor: '#222222' }} onTouchStart={() => this.swapOut('topping')} />
-          <View style={{ flex: 1, backgroundColor: '#111111' }} onTouchStart={() => this.swapOut('optional')} />
-    </View>*/}
-
-
-        <View style={{ flex: 1, flexDirection: 'row' }}>
+        <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#161616', paddingBottom: 5 }}>
           <View style={{ flex: 1 }} onTouchStart={() => this.swapOut('flavour')}>
             <Svg visible={{ flavour: "vanilla" }} />
           </View>
-          <View style={{ flex: 1 }} onTouchStart={() => this.swapOut('holder.type')}>
-            <Svg visible={{ holder: { type: this.state.cupcake.holder.type } }} />
+          <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ flex: 1, overflow: "hidden" }} onTouchStart={() => this.swapOut('holder.type')}>
+              <Svg visible={{ holder: { type: this.state.cupcake.holder.type }, svg: { width: '200%', height: '100%', viewBox: '80 0 450 600' } }} />
+            </View>
+            <View style={{ flex: 1, overflow: "hidden" }} onTouchStart={() => this.swapOut('holder.colour')}>
+              <Svg visible={{ holder: { type: this.state.cupcake.holder.type, colour: this.state.cupcake.holder.colour }, svg: { width: '200%', height: '100%', viewBox: '300 0 450 600' } }} />
+            </View>
           </View>
-          <View style={{ flex: 1 }} onTouchStart={() => this.swapOut('holder.colour')}>
-            <Svg visible={{ holder: { type: this.state.cupcake.holder.type, colour: this.state.cupcake.holder.colour } }} />
+          <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ flex: 1 }} onTouchStart={() => this.swapOut('icing.type')}>
+              <Svg visible={{ icing: { type: this.state.cupcake.icing.type }, svg: { width: '200%', height: '100%', viewBox: '80 0 450 600' } }} />
+            </View>
+            <View style={{ flex: 1 }} onTouchStart={() => this.swapOut('icing.colour')}>
+              <Svg visible={{ icing: { type: this.state.cupcake.icing.type, colour: this.state.cupcake.icing.colour }, svg: { width: '200%', height: '100%', viewBox: '300 0 450 600' } }} />
+            </View>
           </View>
-          <View style={{ flex: 1 }} onTouchStart={() => this.swapOut('icing.type')}>
-            <Svg visible={{ icing: { type: this.state.cupcake.icing.type } }} />
-          </View>
-          <View style={{ flex: 1 }} onTouchStart={() => this.swapOut('icing.colour')}>
-            <Svg visible={{ icing: { type: this.state.cupcake.icing.type, colour: this.state.cupcake.icing.colour } }} />
-          </View>
-          <View style={{ flex: 1 }} onTouchStart={() => this.swapOut('sprinkles.type')}>
-            <Svg visible={{ sprinkles: { type: this.state.cupcake.sprinkles.type } }} />
-          </View>
-          <View style={{ flex: 1 }} onTouchStart={() => this.swapOut('sprinkles.colour')}>
-            <Svg visible={{ sprinkles: { type: this.state.cupcake.sprinkles.type, colour: this.state.cupcake.sprinkles.colour } }} />
-          </View>
-          <View style={{ flex: 1 }} onTouchStart={() => this.swapOut('topping')}>
-            <Svg visible={{ icing: { type: this.state.cupcake.icing.type }, topping: this.state.cupcake.topping }} />
-          </View>
-          <View style={{ flex: 1 }} onTouchStart={() => this.swapOut('optional')}>
-            <Svg visible={{ icing: { type: this.state.cupcake.icing.type }, optional: this.state.cupcake.optional }} />
+          {this.state.cupcake.sprinkles && (this.state.cupcake.sprinkles.type === 'salt' || this.state.cupcake.sprinkles.type === 'sprinkles') ? (
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <View style={{ flex: 1 }} onTouchStart={() => this.swapOut('sprinkles.type')}>
+                <Svg visible={{ sprinkles: { type: this.state.cupcake.sprinkles.type }, svg: { width: '100%', height: '100%', viewBox: '70 0 450 600' } }} />
+              </View>
+            </View>
+          ) : (
+              <View style={{ flex: 1, flexDirection: 'row' }}>
+                <View style={{ flex: 1 }} onTouchStart={() => this.swapOut('sprinkles.type')}>
+                  <Svg visible={{ sprinkles: { type: this.state.cupcake.sprinkles.type }, svg: { width: '200%', height: '100%', viewBox: '70 0 450 600' } }} />
+                </View>
+                <View style={{ flex: 1 }} onTouchStart={() => this.swapOut('sprinkles.colour')}>
+                  <Svg visible={{ sprinkles: { type: this.state.cupcake.sprinkles.type, colour: this.state.cupcake.sprinkles.colour }, svg: { width: '200%', height: '100%', viewBox: '300 0 450 600' } }} />
+                </View>
+              </View>
+            )}
+
+          <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ flex: 1 }} onTouchStart={() => this.swapOut('topping')}>
+              <Svg visible={{ icing: { type: this.state.cupcake.icing.type }, topping: this.state.cupcake.topping, svg: { width: '200%', height: '100%', viewBox: '80 0 450 600' } }} />
+            </View>
+            <View style={{ flex: 1 }} onTouchStart={() => this.swapOut('optional')}>
+              <Svg visible={{ icing: { type: this.state.cupcake.icing.type, colour: this.state.cupcake.icing.type }, optional: this.state.cupcake.optional, svg: { width: '200%', height: '100%', viewBox: '300 0 450 600' } }} />
+            </View>
           </View>
         </View>
       </View>
