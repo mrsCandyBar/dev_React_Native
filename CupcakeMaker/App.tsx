@@ -106,7 +106,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
           <Svg visible={this.state.cupcake} />
         </View>
 
-        <View style={[styles.single, styles.isRow, { backgroundColor: '#161616', paddingBottom: 5 }]}>
+        <View style={[styles.single, styles.isRow, { backgroundColor: '#161616', paddingBottom: 5, marginTop: 20 }]}>
           <View style={styles.single} onTouchStart={() => this.swapOut('flavour')}>
             <Svg visible={{ flavour: flavour }} />
           </View>
@@ -132,7 +132,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
           {sprinkles && (sprinkles.type === 'salt' || sprinkles.type === 'sprinkles') ? (
             <View style={[styles.single, styles.isRow]}>
               <View style={styles.single} onTouchStart={() => this.swapOut('sprinkles.type')}>
-                <Svg visible={{ sprinkles: { type: sprinkles.type }, svg: rightAlignSvg }} />
+                <Svg visible={{ sprinkles: { type: sprinkles.type }, svg: { width: '100%', height: '100%', viewBox: '70 0 450 600' } }} />
               </View>
             </View>
           ) : (
@@ -147,11 +147,12 @@ export default class App extends React.Component<IAppProps, IAppState> {
             )}
 
           <View style={[styles.single, styles.isRow]}>
-            <View style={styles.single} onTouchStart={() => this.swapOut('topping')}>
-              <Svg visible={{ icing: { type: icing.type }, topping: topping, svg: leftAlignSvg }} />
+            
+            <View style={[styles.single, styles.halfSvg]} onTouchStart={() => this.swapOut('optional')}>
+              <Svg visible={{ icing: { type: icing.type, colour: icing.type }, optional: optional, topping: topping, svg: leftAlignSvg }} />
             </View>
-            <View style={styles.single} onTouchStart={() => this.swapOut('optional')}>
-              <Svg visible={{ icing: { type: icing.type, colour: icing.type }, optional: optional, svg: rightAlignSvg }} />
+            <View style={styles.single} onTouchStart={() => this.swapOut('topping')}>
+              <Svg visible={{ icing: { type: icing.type }, topping: topping, svg: rightAlignSvg }} />
             </View>
           </View>
         </View>
